@@ -1,3 +1,5 @@
+![Banner](banner.png)
+
 # crypto-weak-key-detector
 Identifies cryptographic keys that are statistically weak (e.g., due to biased random number generation during key creation) based on entropy analysis and pattern matching. - Focused on Basic cryptographic operations
 
