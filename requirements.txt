@@ -1,1 +1,1 @@
-cryptography>=41.0.0
+# No third-party dependencies; standard library only.

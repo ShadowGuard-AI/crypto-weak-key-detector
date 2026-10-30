@@ -2,10 +2,8 @@ import argparse
 import logging
 import os
 import sys
-from cryptography.hazmat.primitives import hashes
-from cryptography.hazmat.backends import default_backend
-from cryptography.exceptions import InvalidTag
-import binascii
+import math
+from collections import Counter
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -35,13 +33,12 @@ def calculate_entropy(data):
     if not data:
         return 0.0
 
-    entropy = 0
-    for x in range(256):
-        p_x = float(data.count(x)) / len(data)
-        if p_x > 0:
-            entropy += - p_x * (p_x * 1.0).math.log(2, out=None)  # Avoid NumPy dependency.
-
-    return entropy
+    # One Counter pass instead of counting every byte value with a full
+    # rescan of the data. The result is bits per byte, so a repeated-byte
+    # key scores 0 and uniform random bytes score close to 8.
+    counts = Counter(data)
+    length = len(data)
+    return -sum((c / length) * math.log2(c / length) for c in counts.values())
 
 
 def analyze_key(key_data, entropy_threshold):
@@ -124,23 +121,3 @@ def main():
 if __name__ == "__main__":
     main()
 
-
-# Example Usage (Illustrative, create dummy keys for testing):
-#
-# 1. Generate a weak key (mostly repeating bytes):
-#    with open("weak_key.bin", "wb") as f:
-#        f.write(b"\x00" * 32)
-#
-# 2. Generate a strong key (using os.urandom):
-#    with open("strong_key.bin", "wb") as f:
-#        f.write(os.urandom(32))
-#
-# 3. Run the tool:
-#    python main.py weak_key.bin
-#    python main.py strong_key.bin
-#
-# 4. Adjust the threshold:
-#    python main.py weak_key.bin -t 0.8
-#
-# 5. Enable verbose logging:
-#    python main.py weak_key.bin -v
