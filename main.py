@@ -111,7 +111,10 @@ def main():
 
     key_data = read_key_from_file(key_file)
 
-    if key_data:
+    # None means the read failed. An empty file read fine: zero bytes
+    # carry zero entropy, so it gets the weak verdict instead of a
+    # misleading "failed to read" exit.
+    if key_data is not None:
         analyze_key(key_data, entropy_threshold)
     else:
         logging.error("Failed to read key data. Exiting.")
