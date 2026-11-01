@@ -78,6 +78,11 @@ def find_period(data):
     byte frequencies look.
     """
     n = len(data)
+    # Every candidate period gets a full scan of the input, so a large
+    # key file with no period costs roughly n squared byte comparisons
+    # before this gives up. Periods are tried smallest first, which is
+    # why a genuinely repeated key is caught quickly and the expensive
+    # case is exactly the strong key the caller hopes for.
     for p in range(1, n // 2 + 1):
         if all(data[i] == data[i % p] for i in range(n)):
             return p
@@ -113,6 +118,11 @@ def decode_text_encoding(data):
         except (binascii.Error, ValueError):
             return None, None
         if len(raw) >= 16 and base64.b64encode(raw).decode("ascii") == compact:
+            # Two guards keep ordinary text from being mistaken for an
+            # encoded key: the decode must re-encode to the exact same
+            # string, and the decoded bytes must be mostly non
+            # printable. A sentence that happens to be valid base64
+            # decodes to printable text and falls through as raw input.
             printable = sum(1 for b in raw if 32 <= b < 127)
             if printable / len(raw) < 0.85:
                 return raw, "base64"
@@ -222,6 +232,10 @@ def main():
     # carry zero entropy, so it gets the weak verdict instead of a
     # misleading "failed to read" exit.
     if key_data is not None:
+        # The verdict is not turned into an exit code: weak and strong
+        # both end the run at 0, and the result exists only in the log
+        # lines analyze_key writes. A script that needs the answer has
+        # to read the output, not the exit status.
         analyze_key(key_data, entropy_threshold)
     else:
         logging.error("Failed to read key data. Exiting.")
