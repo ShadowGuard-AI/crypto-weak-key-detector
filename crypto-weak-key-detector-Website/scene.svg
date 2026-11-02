@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="300" viewBox="0 0 1200 300">
+  <rect width="1200" height="300" fill="#0a100e"/>
+  <circle cx="980" cy="62" r="34" fill="#e8ead6">
+    <animate attributeName="opacity" values="0.85;1;0.85" dur="7s" repeatCount="indefinite"/>
+  </circle>
+  <rect x="0" y="196" width="1200" height="104" fill="#18241c"/>
+  <g fill="#2c4a34">
+    <ellipse cx="180" cy="220" rx="90" ry="26"/><ellipse cx="520" cy="232" rx="110" ry="30"/><ellipse cx="860" cy="222" rx="96" ry="26"/>
+  </g>
+  <g>
+    <g fill="#eef0e6">
+      <circle cx="300" cy="238" r="9"/><circle cx="322" cy="238" r="9"/><circle cx="311" cy="222" r="9"/><circle cx="311" cy="254" r="9"/>
+    </g>
+    <circle cx="311" cy="238" r="5" fill="#d6c478">
+      <animate attributeName="r" values="4;6;4" dur="5s" repeatCount="indefinite"/>
+    </circle>
+    <g fill="#cdd4c4">
+      <circle cx="640" cy="252" r="8"/><circle cx="660" cy="252" r="8"/><circle cx="650" cy="238" r="8"/><circle cx="650" cy="266" r="8"/>
+    </g>
+    <circle cx="650" cy="252" r="4" fill="#d6c478"/>
+    <g fill="#eef0e6">
+      <circle cx="120" cy="256" r="8"/><circle cx="140" cy="256" r="8"/><circle cx="130" cy="242" r="8"/><circle cx="130" cy="270" r="8"/>
+    </g>
+    <circle cx="130" cy="256" r="4" fill="#d6c478"/>
+  </g>
+</svg>
